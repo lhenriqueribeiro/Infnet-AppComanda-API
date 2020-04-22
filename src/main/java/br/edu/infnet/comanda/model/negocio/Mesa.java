@@ -12,33 +12,53 @@ public class Mesa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idMesa;
-	private String descricao;
+	private int idMesa;
+	private int numero;
+	private String localizacao;
+	private int qtPessoas;
 	
 	public Mesa() {
 	}
-	public Mesa(Integer idMesa, String descricao) {
+	
+	public Mesa(int numero, String localizacao, int qtPessoas) {
 		this();
-		this.idMesa = idMesa;
-		this.descricao = descricao;
+		setNumero(numero);
+		setLocalizacao(localizacao);
+		setQtPessoas(qtPessoas);
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%d - %s", this.getIdMesa(), this.getDescricao());
+		return String.format("%d - %d - %s - %d", 
+				this.getIdMesa(), 
+				this.getNumero(),
+				this.getLocalizacao(),
+				this.getQtPessoas()
+				);
 	}
 	
-
-	public Integer getIdMesa() {
+	public int getIdMesa() {
 		return idMesa;
 	}
-	public void setIdMesa(Integer idMesa) {
+	public void setIdMesa(int idMesa) {
 		this.idMesa = idMesa;
 	}
-	public String getDescricao() {
-		return descricao;
+	public int getNumero() {
+		return numero;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	public int getQtPessoas() {
+		return qtPessoas;
+	}
+	public void setQtPessoas(int qtPessoas) {
+		this.qtPessoas = qtPessoas;
 	}
 }

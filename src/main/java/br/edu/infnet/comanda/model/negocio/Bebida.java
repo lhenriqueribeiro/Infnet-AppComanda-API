@@ -1,10 +1,10 @@
 package br.edu.infnet.comanda.model.negocio;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -15,33 +15,54 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "TBebida")
 @PrimaryKeyJoinColumn(name = "idCardapio")
 public class Bebida extends Cardapio {
-
-	private String nivel;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idCardapio", nullable = false)
-	@MapsId
+	private String tipo;
+	private int ml;
+	private boolean gelada;
+
+	@OneToOne(fetch = FetchType.EAGER,
+			  cascade = CascadeType.ALL)
+	@JoinColumn(name = "idCardapio", nullable = false)	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Cardapio cardapio;
 	
 	public Bebida() {
 	}
 	
-	@Override
-	public String toString() {
-		return String.format("%s - %s", super.toString(), this.getNivel());
+	public Bebida(String tipo,int ml, boolean gelada) {
+		this();
+		setTipo(tipo);
+		setMl(ml);
+		setGelada(gelada);
 	}
 	
-	public Bebida(String nivel) {
-		this();
-		this.nivel = nivel;
+	@Override
+	public String toString() {
+		return String.format("%s - %s - %d - %s", 
+				super.toString(), 
+				this.getTipo(),
+				this.getMl(),
+				this.isGelada() ? "Gelada" : "Não Gelada"
+				);
 	}
 
-	public String getNivel() {
-		return nivel;
+	public String getTipo() {
+		return tipo;
 	}
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public int getMl() {
+		return ml;
+	}
+	public void setMl(int ml) {
+		this.ml = ml;
+	}
+	public boolean isGelada() {
+		return gelada;
+	}
+	public void setGelada(boolean gelada) {
+		this.gelada = gelada;
 	}
 	public Cardapio getCardapio() {
 		return cardapio;

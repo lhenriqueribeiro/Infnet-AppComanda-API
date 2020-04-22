@@ -3,7 +3,6 @@ package br.edu.infnet.comanda.model.negocio;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,10 +29,10 @@ public abstract class Cardapio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idCardapio;
-	
-	@Column(name = "descricao")
-	private String descricao;
+	private int idCardapio;
+	private String nome;
+	private boolean disponivel;
+	private float valor;
 	
     @ManyToMany(mappedBy = "cardapios", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Comanda> Comandas;
@@ -41,28 +40,46 @@ public abstract class Cardapio {
 	public Cardapio() {
 	}
 	
-	public Cardapio(Integer idCardapio, String descricao) {
+	public Cardapio(String nome, boolean disponivel, float valor) {
 		this();
-		this.idCardapio = idCardapio;
-		this.descricao = descricao;
+		this.setNome(nome);
+		this.setDisponivel(disponivel);
+		this.setValor(valor);
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%d - %s", this.getIdCardapio(), this.getDescricao());
+		return String.format("%d - %s - %s - %.2f", 
+				this.getIdCardapio(), 
+				this.getNome(),
+				this.isDisponivel() ? "Sim" : "Não",
+				this.getValor()
+				);
 	}
 	
-	public Integer getIdCardapio() {
+	public int getIdCardapio() {
 		return idCardapio;
 	}
-	public void setIdCardapio(Integer idCardapio) {
+	public void setIdCardapio(int idCardapio) {
 		this.idCardapio = idCardapio;
 	}
-	public String getDescricao() {
-		return descricao;
+	public String getNome() {
+		return nome;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public boolean isDisponivel() {
+		return disponivel;
+	}
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
+	}
+	public float getValor() {
+		return valor;
+	}
+	public void setValor(float valor) {
+		this.valor = valor;
 	}
 	public List<Comanda> getComandas() {
 		return Comandas;
@@ -70,5 +87,4 @@ public abstract class Cardapio {
 	public void setComandas(List<Comanda> comandas) {
 		Comandas = comandas;
 	}
-
 }

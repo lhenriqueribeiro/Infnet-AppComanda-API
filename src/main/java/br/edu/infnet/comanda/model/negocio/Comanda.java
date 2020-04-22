@@ -3,7 +3,6 @@ package br.edu.infnet.comanda.model.negocio;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,54 +19,96 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "TComanda")
 public class Comanda {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idComanda;
-	
-	@Column(name = "descricao")
-	private String descricao;
+	private int idComanda;
+	private int dia;
+	private int mes;
+	private int ano;
+	private boolean happyHour;
+	private String garcom;
 	
 	@OneToOne(fetch = FetchType.EAGER,
 			  cascade = CascadeType.ALL,
 			  orphanRemoval = true)
 	@JoinColumn(name = "idMesa")
 	private Mesa mesa;
-
+	
 	@JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name="TComandaCardapio", 
     	joinColumns={@JoinColumn(name="idComanda")},
     	inverseJoinColumns={@JoinColumn(name="idCardapio")})
 	private List<Cardapio> cardapios;
+
     
 	public Comanda() {
 	}
 	
-	public Comanda(Integer id, String descricao) {
+	public Comanda(int idComanda, 
+				   int dia, int mes, int ano, boolean happyHour, String garcom, 
+				   Mesa mesa, List<Cardapio> cardapios) {
 		this();
-		this.idComanda = id;
-		this.descricao = descricao;
+		this.setIdComanda(idComanda);
+		this.setDia(dia);
+		this.setMes(mes);
+		this.setAno(ano);
+		this.setHappyHour(happyHour);
+		this.setGarcom(garcom);
+		this.setMesa(mesa);
+		this.setCardapios(cardapios);
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("%d - %s", 
-				this.getIdComanda(), 
-				this.getDescricao());
+		return String.format("%d - %d/%d/%d - %s - %s - %s - %s", 
+				this.getIdComanda(),
+				this.getDia(),
+				this.getMes(),
+				this.getAno(),
+				this.isHappyHour() ? "HappyHour" : "Não",
+				this.getGarcom(),
+				this.getMesa(),
+				this.getCardapios()
+			);
 	}
 
-	public Integer getIdComanda() {
+	public int getIdComanda() {
 		return idComanda;
 	}
-	public void setIdComanda(Integer idComanda) {
+	public void setIdComanda(int idComanda) {
 		this.idComanda = idComanda;
 	}
-	public String getDescricao() {
-		return descricao;
+	public int getDia() {
+		return dia;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+	public int getMes() {
+		return mes;
+	}
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+	public boolean isHappyHour() {
+		return happyHour;
+	}
+	public void setHappyHour(boolean happyHour) {
+		this.happyHour = happyHour;
+	}
+	public String getGarcom() {
+		return garcom;
+	}
+	public void setGarcom(String garcom) {
+		this.garcom = garcom;
 	}
 	public Mesa getMesa() {
 		return mesa;
